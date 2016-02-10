@@ -1,7 +1,9 @@
 # Boot the framework. Similar to Rails' `config/boot.rb`.
 
 # Activate Bundler. Set up gems listed in the Gemfile.
-require 'bundler/setup'
+require 'bundler/setup' 
+# it will require all ges which you define in the gemfile
+# load the Gemfile and add all gems which define in gemfile to the $LOAD_PATH
 
 # Add our framework code (lib/) to the load path.
 $LOAD_PATH.unshift "lib"

@@ -19,32 +19,37 @@
 #   [200, {}, ["hi"]]
 # end
 
-Routes = {
-  "GET" => {
-    # "path" => block
-  }
-}
 
-def get(path, &block)
-  Routes["GET"][path] = block
-end
+# Routes = {
+#   "GET" => {
+#     # "path" => block
+#   }
+# }
 
-get "/" do
-  "awesome!"
-end
+# def get(path, &block)
+#   Routes["GET"][path] = block
+# end
 
-get "/hello" do
-  "Hello!"
-end
+# get "/" do
+#   "awesome!"
+# end
 
-run -> env do
-  method = env["REQUEST_METHOD"]
-  path = env["PATH_INFO"]
+# get "/hello" do
+#   "Hello!"
+# end
 
-  if block = Routes[method][path]
-    body = block.call
-    [200, {}, [body]]
-  else
-    [400, {}, ["Not found"]]
-  end
-end
+# run -> env do
+#   method = env["REQUEST_METHOD"]
+#   path = env["PATH_INFO"]
+
+#   if block = Routes[method][path]
+#     body = block.call
+#     [200, {}, [body]]
+#   else
+#     [400, {}, ["Not found"]]
+#   end
+# end
+
+require ::File.expand_path('../lib/boot', __FILE__)
+require "application"
+run Application.new
