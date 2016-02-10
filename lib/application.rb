@@ -4,6 +4,9 @@
 
 require "action_controller"
 require "application_controller"
+require "active_record"
+require "router"
+require "config/routes"
 # require "pry"
 
 # class name is a constant. So it first character should capitalize 
@@ -30,8 +33,10 @@ class Application
 
   def route(path)
     # "/home/index" => ["", "home", "index"]
-    _, controller_name, action_name = path.split("/")
-    [controller_name || "home", action_name || "index"]
+
+    # _, controller_name, action_name = path.split("/")
+    # [controller_name || "home", action_name || "index"]
+    Routes.recognize(path)
   end
 
   def load_controller_class(name)
