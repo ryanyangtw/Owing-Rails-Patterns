@@ -51,5 +51,24 @@
 # end
 
 require ::File.expand_path('../lib/boot', __FILE__)
+
+class Logger
+  def initialize(app)
+    @app = app # our main Application
+  end
+
+  def call(env)
+    puts "Calling" + env["PATH_INFO"] # before middleware
+    # env["HTTP_COOKIES"] = "..." # We can modify something using middleware
+    @app.call(env) # forword to main Application
+    # staus, headers, body = @app.call(env)
+    # xss_detect(body) # We can using middleware to sanatize body
+    # [status, headers, body]
+  end
+end
+
+
+use Logger
+
 require "application"
 run Application.new
