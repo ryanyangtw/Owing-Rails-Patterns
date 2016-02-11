@@ -30,6 +30,10 @@ module Filtering
     # def after_actions
     #   @after_actions ||= []
     # end
+
+    def around_action(method)
+      set_callback :process, :around, method
+    end
   end
 
   def process(action_name)
