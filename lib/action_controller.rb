@@ -1,4 +1,5 @@
 require 'filtering'
+require 'rendering'
 
 module ActionController
   class Metal
@@ -13,6 +14,7 @@ module ActionController
     # extend Filtering  # => Using extend to add class method
     # method in Filtering can overwrite the mehod in Metal
     include Filtering
+    include Rendering
     # def self.before_action(method)
     # end
   end
