@@ -2,11 +2,12 @@
 #  ...  
 # end
 
-require "action_controller"
-require "application_controller"
-require "active_record"
-require "router"
-require "config/routes"
+require "autoloading"
+# require "action_controller"
+# require "application_controller"
+# require "active_record"
+# require "router"
+# require "config/routes"
 # require "pry"
 
 # class name is a constant. So it first character should capitalize 
