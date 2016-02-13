@@ -30,7 +30,7 @@ class RenderingTest < ActiveSupport::TestCase
     assert_match "<head>", @controller.render_to_string("index")
   end
 
-  # def test_content_for
-  #   assert_match "<title>Hello</title>", @controller.render_to_string("index")
-  # end
+  def test_content_for
+    assert_match "<title>Hello</title>", @controller.render_to_string("index")
+  end
 end

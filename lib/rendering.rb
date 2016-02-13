@@ -1,5 +1,4 @@
 require "erb"
-require "pry"
 
 module Rendering
   def render(action)
@@ -13,11 +12,18 @@ module Rendering
     # template.result(binding)
 
     method = compile_template(path)
-    content = send method
+    # content = send method
+    content_for :layout, send(method)
     # content => "\n\n<p>Hello from a view!</p>\n<p>@message = </p>"
 
     layout_method = compile_template(layout_path)
-    send(layout_method) { content }
+    # send(layout_method) { content }
+    send(layout_method) { |name = :layout| @content_for[name] }
+  end
+
+  def content_for(name, content)
+    @content_for ||= {}
+    @content_for[name] = content
   end
 
   def compile_template(path)
