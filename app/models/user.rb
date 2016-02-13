@@ -1,9 +1,12 @@
 class User < ActiveRecord::Base
   validates :name, presence: true
 
-  def self.search(name)
-    where("name LIKE '%#{name}%'")
-  end
+  # def self.search(name)
+  #   where("name LIKE '%#{name}%'")
+  # end
+
+  # The same with above
+  scope :search, -> name { where("name LIKE '%#{name}%'") }
 
 end
 

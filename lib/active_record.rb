@@ -62,6 +62,17 @@ module ActiveRecord
       all.where(values)
     end
 
+    def self.order(values)
+      all.order(values)
+    end
+
+    def self.scope(name, body) # body ia a lambda
+      # define_singleton_method name do
+      #   ...
+      # end
+      define_singleton_method name, &body # def self.search
+    end
+
   end
 end
 
