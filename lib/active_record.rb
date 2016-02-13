@@ -1,5 +1,6 @@
 require "active_model"
 require "connection_adapter"
+require "relation"
 require "pry"
 
 module ActiveRecord
@@ -17,13 +18,24 @@ module ActiveRecord
     end
 
     def method_missing(name, *args)
-      columns = @@connection.columns(table_name)  
-
-      if columns.include?(name)
-        @attributes[name]
+      if self.class.attribute_methods_generated?
+         super
       else
-        super
+        self.class.define_attribute_methods
+
+        if self.class.columns.include?(name)
+          send name
+        else
+          super
+        end
       end
+
+      ## columns = @@connection.columns(table_name)  
+      # if self.class.columns.include?(name)
+      #   @attributes[name]
+      # else
+      #   super
+      # end
     end
 
     def self.find(id)
@@ -37,6 +49,7 @@ module ActiveRecord
         new attributes
       end
     end
+
 
     def self.table_name
       # User.name => "User"
@@ -71,6 +84,27 @@ module ActiveRecord
       #   ...
       # end
       define_singleton_method name, &body # def self.search
+    end
+
+
+    # Compile attribute methods
+    def self.columns
+      @@connection.columns(table_name)
+    end
+
+    def self.define_attribute_methods
+      columns.each do |column|
+        class_eval <<-RUBY
+          def #{column}
+            @attributes[:#{column}]
+          end
+        RUBY
+      end
+      @attribute_methods_generated = true
+    end
+
+    def self.attribute_methods_generated?
+      @attribute_mathods_generated
     end
 
   end
