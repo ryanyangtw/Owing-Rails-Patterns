@@ -32,10 +32,6 @@ module ActiveRecord
       find_by_sql("SELECT * FROM #{table_name} WHERE id = #{id.to_i} LIMIT 1").first
     end
 
-    def self.all
-      find_by_sql("SELECT * FROM #{table_name}")
-    end
-
     def self.find_by_sql(sql)
       @@connection.execute(sql).map do |attributes| # [ attributes, attributes, attributes ]
         new attributes
@@ -45,6 +41,25 @@ module ActiveRecord
     def self.table_name
       # User.name => "User"
       name.downcase + "s" # => "users"
+    end
+
+    ## Relation
+    class << self
+    # Change the context to the class method or calss attributes
+      attr_accessor :current_scope # class attribute
+    end
+
+    def self.all
+      if current_scope
+        current_scope.clone
+      else
+        Relation.new(self)
+      end
+      # find_by_sql("SELECT * FROM #{table_name}")
+    end
+
+    def self.where(values)
+      all.where(values)
     end
 
   end

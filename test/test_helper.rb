@@ -6,3 +6,5 @@ require 'active_support/test_case'
 
 # Remove warning from ActiveSupport
 I18n.enforce_available_locales = true
+
+require 'autoloading'
